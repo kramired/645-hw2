@@ -4,8 +4,6 @@ pipeline {
     environment {
         KUBE_NAMESPACE = 'hw2'
         KUBE_DEPLOYMENT_NAME = 'surveyform-deployment'
-        DOCKER_UNAME = credentials('docker-uname')
-        DOCKER_PWD = credentials('docker-pwd')
     }
 
     stages {
@@ -18,13 +16,22 @@ pipeline {
             }
         }
 
+        stage('Set Docker Credentials') {
+            steps {
+                script {
+                    // Set Docker credentials for the entire pipeline
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
+                    }
+                }
+            }
+        }
+
         stage('Build WAR') {
             steps {
                 script {
-                    // Use your build tool (e.g., Maven) to build the WAR file
+                    //Build the WAR file
                     sh 'rm -rf *.war'
                     sh 'jar -cvf surveyform.war src/index.html'
-                    //sh 'mvn clean package'
                 }
             }
         }
@@ -32,10 +39,12 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
                     // Build Docker image
-                    sh "echo ${BUILD_TIMESTAMP}"
-                    sh "docker login -u ${DOCKER_UNAME} -p ${DOCKER_PWD}"
-                    sh "DOCKER_DEFAULT_PLATFORM='linux/amd64' docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} ."
+                        sh "echo ${BUILD_TIMESTAMP}"
+                        sh "docker login -u ${DOCKER_UNAME} -p ${DOCKER_PWD}"
+                        sh "DOCKER_DEFAULT_PLATFORM='linux/amd64' docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} ."
+                    }
                 }
             }
         }
