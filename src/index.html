@@ -1,0 +1,165 @@
+<!-- <
+Keerthi Ramireddy
+G01450961
+HW1 Assignment
+
+This is the survey form that has few questions about university
+> -->
+
+<!DOCTYPE html>
+<head>
+    <title>SURVEY</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .required {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>SURVEY</h1>
+        <p> Please fill out the survey to make improvements accordingly</p>
+        <form method="post" autocomplete="on">
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="firstname">First Name<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="firstname" placeholder="Enter First Name" name="firstname" required>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="lastname">Last Name<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name" name="lastname" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="streetaddress">Street Address<span class="required">*</span>:</label>
+                <input type="text" class="form-control" id="streetaddress" placeholder="Enter Street Address" name="streetaddress" required>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="city">CITY<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="city" placeholder="Enter city" name="city" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="state">STATE<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="state" placeholder="Enter state" name="state" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="zip">ZIP<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="zip" placeholder="Enter ZIPCODE" name="zip" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="telephonenumber">Telephone Number<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="telephonenumber" placeholder="(XXX)-(XXXX)-(XXX)" name="telephonenumber" required>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        <label for="email">EMAIL ID<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="email" placeholder="Enter email address" name="email" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="date">DATE OF SURVEY<span class="required">*</span>:</label>
+                        <input type="text" class="form-control" id="date" placeholder="Enter date(MM/DD/YYYY)" name="date" required>
+                    </div>
+                </div>
+            </div>
+            <h3>What you like the most about the campus?</h3>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                 <input class="form-check-input" type="checkbox" name="students"> Students
+                </label>
+                <br>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="location"> Location
+                </label>
+                <br>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="campus"> Campus
+                </label>
+                <br>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="atmosphere"> Atmosphere
+                </label>
+                <br>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="dormrooms"> Dorm Rooms
+                </label>
+                <br>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="sports"> Sports
+                </label>
+            </div>
+            <h3>How did you get interested in the university?</h3>
+            <div class="form-group form-check">
+                <label class="form-check-label" for="friends">
+                    <input type="radio" class="form-check-input" id="friends" name="interest">Friends
+                </label>
+                <br>
+                <label class="form-check-label" for="tv">
+                    <input type="radio" class="form-check-input" id="tv" name="interest">Television
+                </label>
+                <br>
+                <label class="form-check-label" for="internet">
+                    <input type="radio" class="form-check-input" id="internet" name="interest">Internet
+                </label>
+                <br>
+                <label class="form-check-label" for="other">
+                    <input type="radio" class="form-check-input" id="other" name="interest">Other
+                </label>
+            </div>
+            <h3>How likey would you recommend this school to other students?</h3>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <select class="form-control">
+                          <option>Very Likely</option>
+                          <option>Likely</option>
+                          <option>Unlikely</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <h3>Get a chance to win the lottery by entering 10 numbers ranging from (1-100)!</h3>
+            <div class="row">
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="raffle">Raffle:</label>
+                        <input type="text" class="form-control" id="raffle" placeholder="Raffle Numbers (comma-separated):" name="raffle">
+                    </div>
+                </div>
+            </div>
+            <h3>Additional Comments</h3>
+            <div class="form-group">
+                <textarea class="form-control" rows="5"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <button type="reset" class="btn btn-danger">Cancel</button>
+        </form>
+    </div>
+</body>
+</html

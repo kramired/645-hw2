@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+
+    environment {
+        KUBE_NAMESPACE = 'hw2'
+        KUBE_DEPLOYMENT_NAME = 'surveyform-deployment'
+        DOCKER_UNAME = credentials('docker-uname')
+        DOCKER_PWD = credentials('docker-pwd')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Checkout your Git repository
+                    checkout scm
+                }
+            }
+        }
+
+        stage('Build WAR') {
+            steps {
+                script {
+                    // Use your build tool (e.g., Maven) to build the WAR file
+                    sh 'rm -rf *.war'
+                    sh 'jar -cvf surveyform.war src/index.html'
+                    //sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image
+                    sh "echo ${BUILD_TIMESTAMP}"
+                    sh "docker login -u ${DOCKER_UNAME} -p ${DOCKER_PWD}"
+                    sh "DOCKER_DEFAULT_PLATFORM='linux/amd64' docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image to Registry') {
+            steps {
+                script {
+                    // Push Docker image to your Docker registry
+                    sh "docker push ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP}"
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh "sed -i 's|image: .*|image: ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP}|' kubernetes/deployment.yaml"
+                    sh "sed -i 's|namespace: .*|namespace: ${KUBE_NAMESPACE}|' kubernetes/deployment.yaml"
+                    sh "kubectl apply -f kubernetes/deployment.yaml"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up Docker images locally after build
+            cleanWs()
+            script {
+                sh "docker rmi ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP}"
+            }
+        }
+    }
+}

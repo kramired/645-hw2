@@ -1,0 +1,19 @@
+kind: Deployment
+metadata:
+  name: survey-deployment
+  namespace: hw2
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: survey-app
+  template:
+    metadata:
+      labels:
+        app: survey-app
+    spec:
+      containers:
+      - name: survey-app-container
+        image: kramired/surveyform-app:4.0
+        ports:
+        - containerPort: 8080
