@@ -4,14 +4,16 @@ pipeline {
     environment {
         KUBE_NAMESPACE = 'hw2'
         KUBE_DEPLOYMENT_NAME = 'surveyform-deployment'
+        DOCKER_UNAME = ''
+        DOCKER_PWD = ''
+        BUILD_TIMESTAMP = ''
     }
 
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout your Git repository
-                    checkout scm
+                    git branch: 'main', credentialsId: 'GITHUB', url: 'https://github.com/kramired/645-hw2.git'
                 }
             }
         }
@@ -20,7 +22,11 @@ pipeline {
             steps {
                 script {
                     // Set Docker credentials for the entire pipeline
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
+                    BUILD_TIMESTAMP = new Date().format("yyyyMMddHHmmss")
+                    echo "Timestamp: ${BUILD_TIMESTAMP}"
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
+                        DOCKER_UNAME = env.DOCKER_UNAME
+                        DOCKER_PWD = env.DOCKER_PWD
                     }
                 }
             }
@@ -39,12 +45,12 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
+                    //withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_UNAME', passwordVariable: 'DOCKER_PWD')]) {
                     // Build Docker image
                         sh "echo ${BUILD_TIMESTAMP}"
-                        sh "docker login -u ${DOCKER_UNAME} -p ${DOCKER_PWD}"
+                        sh "echo ${DOCKER_PWD} | docker login -u ${DOCKER_UNAME} --password-stdin"
                         sh "DOCKER_DEFAULT_PLATFORM='linux/amd64' docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} ."
-                    }
+                    //}
                 }
             }
         }
