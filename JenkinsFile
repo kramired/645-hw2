@@ -49,7 +49,7 @@ pipeline {
                     // Build Docker image
                         sh "echo ${BUILD_TIMESTAMP}"
                         sh "echo ${DOCKER_PWD} | docker login -u ${DOCKER_UNAME} --password-stdin"
-                        sh "DOCKER_DEFAULT_PLATFORM='linux/amd64' docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} ."
+                        sh "docker build -t ${DOCKER_UNAME}/survey-app:${BUILD_TIMESTAMP} . --platform linux/amd64"
                     //}
                 }
             }
