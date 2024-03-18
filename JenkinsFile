@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         KUBE_NAMESPACE = 'hw2'
-        KUBE_DEPLOYMENT_NAME = 'surveyform-deployment'
         DOCKER_UNAME = ''
         DOCKER_PWD = ''
         BUILD_TIMESTAMP = ''
